@@ -1,5 +1,15 @@
 use bevy::prelude::*;
 
+pub struct HelloPlugin;
+impl Plugin for HelloPlugin {
+    fn build(&self, app: &mut AppBuilder) {
+        // add thing to app
+        app.add_startup_system(add_people.system())
+            .add_system(hello_world.system())
+            .add_system(greet_people.system());
+    }
+}
+
 struct Entity(u64);
 
 struct Person;
@@ -14,9 +24,7 @@ struct Position {
 fn main() {
     App::build()
         .add_plugins(DefaultPlugins)
-        .add_startup_system(add_people.system())
-        .add_system(hello_world.system())
-        .add_system(greet_people.system())
+        .add_plugin(HelloPlugin)
         .run();
 }
 
