@@ -2,16 +2,6 @@ use bevy::prelude::*;
 
 struct GreetTimer(Timer);
 
-pub struct HelloPlugin;
-impl Plugin for HelloPlugin {
-    fn build(&self, app: &mut AppBuilder) {
-        // add thing to app
-        app.add_resource(GreetTimer(Timer::from_seconds(2.0, true)))
-            .add_startup_system(add_people.system())
-            .add_system(greet_people.system());
-    }
-}
-
 struct Entity(u64);
 
 struct Person;
@@ -23,17 +13,21 @@ struct Position {
     y: f32,
 }
 
+pub struct HelloPlugin;
+impl Plugin for HelloPlugin {
+    fn build(&self, app: &mut AppBuilder) {
+        // add thing to app
+        app.add_resource(GreetTimer(Timer::from_seconds(2.0, true)))
+            .add_startup_system(add_people.system())
+            .add_system(greet_people.system());
+    }
+}
+
 fn main() {
     App::build()
         .add_plugins(DefaultPlugins)
         .add_plugin(HelloPlugin)
         .run();
-}
-
-fn print_position_system(query: Query<&Transform>) {
-    for transform in query.iter() {
-        println!("position: {:?}", transform.translation);
-    }
 }
 fn add_people(commands: &mut Commands) {
     commands
